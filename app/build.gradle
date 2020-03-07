@@ -40,6 +40,12 @@ dependencies {
     implementation 'androidx.fragment:fragment:1.2.2'
     implementation 'androidx.fragment:fragment-ktx:1.2.2'
 
+    // RecyclerView
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+
+    // Android ViewPager2
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
+
     // Network Configuration
     api 'com.squareup.retrofit2:retrofit:2.7.1'
     api 'com.squareup.okhttp3:okhttp:4.3.1'
