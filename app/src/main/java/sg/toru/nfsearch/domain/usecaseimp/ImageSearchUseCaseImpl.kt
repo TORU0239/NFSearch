@@ -1,17 +1,22 @@
 package sg.toru.nfsearch.domain.usecaseimp
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import sg.toru.nfsearch.data.api.ImageSearchService
 import sg.toru.nfsearch.domain.usecase.ImageSearchUseCase
 import javax.inject.Inject
 
 
 class ImageSearchUseCaseImpl @Inject constructor(private val service: ImageSearchService): ImageSearchUseCase {
-    override fun request() {
+    override fun request(query:String) {
         CoroutineScope(Dispatchers.IO).launch {
-            service.getImageSearch(query("ladygaga", "1"))
+            val result = service.getImageSearch(query(query, "1"))
+            withContext(Dispatchers.Main) {
+                Log.e("ImageSearchUseCaseImpl", "size:: ${result.value.size}")
+            }
         }
     }
 

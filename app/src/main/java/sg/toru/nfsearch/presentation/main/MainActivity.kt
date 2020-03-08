@@ -1,5 +1,8 @@
 package sg.toru.nfsearch.presentation.main
 
+import android.os.Bundle
+import android.util.Log
+import androidx.lifecycle.Observer
 import sg.toru.nfsearch.R
 import sg.toru.nfsearch.app.NFApp
 import sg.toru.nfsearch.domain.di.MainDomainModule
@@ -18,5 +21,13 @@ class MainActivity : BaseActivity() {
         (application as NFApp).appComponent()
             .mainDomainComponent(MainDomainModule())
             .injectTo(this)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.nameLiveData.value = "michael jordan"
+        viewModel.trigger.observe(this, Observer {
+            Log.e("Toru", "return:: $it")
+        })
     }
 }
