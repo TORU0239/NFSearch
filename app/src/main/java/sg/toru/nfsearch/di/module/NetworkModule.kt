@@ -8,6 +8,7 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import sg.toru.nfsearch.data.api.ImageSearchService
 import sg.toru.nfsearch.data.api.NetworkUtil
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
@@ -54,11 +55,11 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient:OkHttpClient):Retrofit {
+    fun provideRetrofit(okHttpClient:OkHttpClient):ImageSearchService {
         return Retrofit.Builder()
             .baseUrl(NetworkUtil.BASEURL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .build()
+            .build().create(ImageSearchService::class.java)
     }
 }
