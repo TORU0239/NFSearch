@@ -6,9 +6,8 @@ import kotlinx.coroutines.launch
 import sg.toru.nfsearch.data.api.ImageSearchService
 import sg.toru.nfsearch.domain.usecase.ImageSearchUseCase
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+
 class ImageSearchUseCaseImpl @Inject constructor(private val service: ImageSearchService): ImageSearchUseCase {
     override fun request() {
         CoroutineScope(Dispatchers.IO).launch {

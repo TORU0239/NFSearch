@@ -14,6 +14,7 @@ class NFApp: Application() {
     }
 
     private fun initDependencyInjection() {
-         appComponent = DaggerAppComponent.builder().build()
+        appComponent = DaggerAppComponent.builder().build()
+        appComponent.injectTo(this)
     }
 }

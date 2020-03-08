@@ -55,11 +55,15 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient:OkHttpClient):ImageSearchService {
+    fun provideRetrofit(okHttpClient:OkHttpClient):Retrofit {
         return Retrofit.Builder()
             .baseUrl(NetworkUtil.BASEURL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
-            .build().create(ImageSearchService::class.java)
+            .build()
     }
+
+    @Singleton
+    @Provides
+    fun provideImageSearchService(retrofit:Retrofit) = retrofit.create(ImageSearchService::class.java)
 }
