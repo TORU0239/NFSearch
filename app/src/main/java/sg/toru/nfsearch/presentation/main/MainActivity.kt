@@ -2,36 +2,25 @@ package sg.toru.nfsearch.presentation.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import sg.toru.nfsearch.R
-import sg.toru.nfsearch.data.api.NetworkUtil
+import sg.toru.nfsearch.domain.usecase.ImageSearchUseCase
+import sg.toru.nfsearch.domain.usecaseimp.ImageSearchUseCaseImpl
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var viewModel:MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        request()
+        viewModel = MainViewModelProvider(ImageSearchUseCaseImpl()).create(MainViewModel::class.java)
     }
+}
 
-    private fun request() {
-        CoroutineScope(Dispatchers.IO).launch {
-            NetworkUtil.service().getImageSearch(query("ladygaga", "1"))
-        }
-    }
+class MainViewModelProvider(private val useCase: ImageSearchUseCase): ViewModelProvider.Factory {
 
-    private fun query(
-        query:String,
-        pageNumber:String
-    ):HashMap<String, String> {
-        val map = HashMap<String,String>()
-        map["autoCorrect"] = "true"
-        map["safeSearch"] = "false"
-        map["q"] = query
-        map["pageNumber"] = pageNumber
-        return map
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return MainViewModel(useCase) as T
     }
 }
