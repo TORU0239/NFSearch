@@ -9,9 +9,3 @@ class MainViewModel(usecase: ImageSearchUseCase):ViewModel() {
         usecase.request()
     }
 }
-
-class MainViewModelProvider(private val useCase: ImageSearchUseCase): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return MainViewModel(useCase) as T
-    }
-}

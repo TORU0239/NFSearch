@@ -3,13 +3,15 @@ package sg.toru.nfsearch.domain.usecaseimp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import sg.toru.nfsearch.data.api.NetworkUtil
+import sg.toru.nfsearch.data.api.ImageSearchService
 import sg.toru.nfsearch.domain.usecase.ImageSearchUseCase
+import javax.inject.Inject
 
-class ImageSearchUseCaseImpl: ImageSearchUseCase {
+
+class ImageSearchUseCaseImpl @Inject constructor(private val service: ImageSearchService): ImageSearchUseCase {
     override fun request() {
         CoroutineScope(Dispatchers.IO).launch {
-            NetworkUtil.service().getImageSearch(query("ladygaga", "1"))
+            service.getImageSearch(query("ladygaga", "1"))
         }
     }
 
