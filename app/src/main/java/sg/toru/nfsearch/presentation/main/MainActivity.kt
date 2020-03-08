@@ -4,6 +4,7 @@ import sg.toru.nfsearch.R
 import sg.toru.nfsearch.app.NFApp
 import sg.toru.nfsearch.domain.di.MainDomainModule
 import sg.toru.nfsearch.domain.viewmodel.MainViewModel
+import sg.toru.nfsearch.presentation.BaseActivity
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
