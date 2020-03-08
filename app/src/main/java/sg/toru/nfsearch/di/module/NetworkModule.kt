@@ -65,5 +65,5 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideImageSearchService(retrofit:Retrofit) = retrofit.create(ImageSearchService::class.java)
+    fun provideImageSearchService(retrofit:Retrofit):ImageSearchService = retrofit.create(ImageSearchService::class.java)
 }
