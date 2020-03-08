@@ -12,3 +12,16 @@ data class SearchResult (
     val title:String,
     val imageWebSearchUrl:String
 )
+
+/*
+*
+* {3 items
+"_type":"images"
+"totalCount":4417
+"value":[...]20 items
+}*/
+data class SearchResultWrapper(
+    val type:String,
+    val totalCount:String,
+    val value:List<SearchResult>
+)

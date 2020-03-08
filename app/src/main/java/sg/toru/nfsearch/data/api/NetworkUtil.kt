@@ -25,8 +25,8 @@ object NetworkUtil {
             override fun intercept(chain: Interceptor.Chain): Response {
                 val original = chain.request()
                 val request = original.newBuilder()
-                                .addHeader("x-rapidapi-host", "contextualwebsearch-websearch-v1.p.rapidapi.com")
-                                .addHeader("x-rapidapi-key", "0d1d22588dmsh064436da0035f61p175155jsndd90b4894d9f")
+                                .addHeader(HEADER_KEY_HOST, HEADER_VALUE_HOST)
+                                .addHeader(HEADER_KEY_APIKEY, HEADER_VALUE_APIKEY)
                                 .method(original.method, original.body)
                                 .build()
                 return chain.proceed(request)
@@ -35,9 +35,9 @@ object NetworkUtil {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor(headerInterceptor)
-            .connectTimeout(3000, TimeUnit.MILLISECONDS)
-            .readTimeout(3000, TimeUnit.MILLISECONDS)
-            .writeTimeout(3000, TimeUnit.MILLISECONDS)
+            .connectTimeout(10000, TimeUnit.MILLISECONDS)
+            .readTimeout(10000, TimeUnit.MILLISECONDS)
+            .writeTimeout(10000, TimeUnit.MILLISECONDS)
             .build()
     }
 
@@ -49,6 +49,14 @@ object NetworkUtil {
             .build()
     }
 
+    fun service():ImageSearchService = retrofit.create(ImageSearchService::class.java)
+
     const val BASEURL = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/"
     const val IMAGESEARCHURL = "Search/ImageSearchAPI"
+
+    private val HEADER_KEY_HOST = "x-rapidapi-host"
+    private val HEADER_VALUE_HOST = "contextualwebsearch-websearch-v1.p.rapidapi.com"
+
+    private val HEADER_KEY_APIKEY = "x-rapidapi-key"
+    private val HEADER_VALUE_APIKEY = "0d1d22588dmsh064436da0035f61p175155jsndd90b4894d9f"
 }
