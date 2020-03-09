@@ -11,17 +11,13 @@ import sg.toru.nfsearch.R
 import sg.toru.nfsearch.app.NFApp
 import sg.toru.nfsearch.domain.di.MainDomainModule
 import sg.toru.nfsearch.domain.viewmodel.MainViewModel
+import sg.toru.nfsearch.presentation.BaseFragment
 import javax.inject.Inject
 
-class MainSearchFragment : Fragment() {
+class MainSearchFragment : BaseFragment() {
 
     @Inject
     lateinit var mainViewModel:MainViewModel
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        initDependencyInjection()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +26,7 @@ class MainSearchFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_main_search, container, false)
     }
 
-    private fun initDependencyInjection() {
+    override fun initDependencyInjection() {
         (activity?.application as NFApp).appComponent()
             .mainDomainComponent(MainDomainModule())
             .injectTo(this)
