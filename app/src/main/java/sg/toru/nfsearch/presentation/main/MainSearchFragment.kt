@@ -31,4 +31,8 @@ class MainSearchFragment : BaseFragment() {
             .mainDomainComponent(MainDomainModule())
             .injectTo(this)
     }
+
+    companion object {
+        fun getInstance() = MainSearchFragment()
+    }
 }

@@ -27,4 +27,8 @@ class MainWebViewFragment : BaseFragment() {
             .mainDomainComponent(MainDomainModule())
             .injectTo(this)
     }
+
+    companion object {
+        fun getInstance() = MainWebViewFragment()
+    }
 }
