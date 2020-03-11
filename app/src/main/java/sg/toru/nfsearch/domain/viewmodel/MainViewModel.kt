@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import sg.toru.nfsearch.domain.usecase.ImageSearchUseCase
+import javax.inject.Inject
 
-class MainViewModel(private val useCase: ImageSearchUseCase):ViewModel() {
+class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase):ViewModel() {
 
     val nameLiveData = MutableLiveData<String>()
 

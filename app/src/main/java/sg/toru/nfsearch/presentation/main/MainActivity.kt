@@ -17,11 +17,30 @@ class MainActivity : BaseActivity() {
 
     private lateinit var binding:ActivityMainBinding
 
-    override fun initDependencyInjection() {}
+    @Inject
+    lateinit var mainViewModel: MainViewModel
+
+    override fun initDependencyInjection() {
+        (application as NFApp).appComponent()
+            .mainDomainComponent(MainDomainModule())
+            .injectTo(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        supportFragmentManager.beginTransaction().add(R.id.mainFragmentContainer, MainFragment()).commit()
+        initView()
+
+        mainViewModel.nameLiveData.value = "michael jordan"
+        mainViewModel.trigger.observe(this, Observer {
+            Log.e("Toru", "return:: $it")
+        })
+    }
+
+    private fun initView() {
+        binding.viewPager.adapter = MainPagerAdapter(this)
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            tab.text = "POSITION $position"
+        }.attach()
     }
 }

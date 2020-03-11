@@ -8,6 +8,7 @@ import sg.toru.nfsearch.data.api.ImageSearchService
 import sg.toru.nfsearch.domain.usecase.ImageSearchUseCase
 import sg.toru.nfsearch.domain.usecaseimp.ImageSearchUseCaseImpl
 import sg.toru.nfsearch.domain.viewmodel.MainViewModel
+import javax.inject.Inject
 
 @Module
 class MainDomainModule {
@@ -24,7 +25,7 @@ class MainDomainModule {
 }
 
 @Suppress("UNCHECKED_CAST")
-class MainViewModelProvider(private val useCase: ImageSearchUseCase): ViewModelProvider.Factory {
+class MainViewModelProvider @Inject constructor(private val useCase: ImageSearchUseCase): ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return MainViewModel(useCase) as T
     }
