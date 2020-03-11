@@ -9,6 +9,7 @@ import sg.toru.nfsearch.databinding.ActivityMainBinding
 import sg.toru.nfsearch.domain.di.MainDomainModule
 import sg.toru.nfsearch.domain.viewmodel.MainViewModel
 import sg.toru.nfsearch.presentation.BaseActivity
+import sg.toru.nfsearch.presentation.extension.hideKeyboard
 import sg.toru.nfsearch.presentation.extension.reduceDragSensitivity
 import javax.inject.Inject
 
@@ -30,7 +31,11 @@ class MainActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         initView()
 
-        mainViewModel.imageQueryLiveData.value = "michael jordan"
+        binding.edMainSearch.setOnEditorActionListener { v, _, _ ->
+            mainViewModel.imageQueryLiveData.value = v.text.toString()
+            binding.edMainSearch.hideKeyboard()
+            true
+        }
     }
 
     private fun initView() {
