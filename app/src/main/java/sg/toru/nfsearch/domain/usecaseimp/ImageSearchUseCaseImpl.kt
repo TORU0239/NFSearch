@@ -13,7 +13,7 @@ import javax.inject.Inject
 class ImageSearchUseCaseImpl @Inject constructor(private val service: ImageSearchService): ImageSearchUseCase {
     override fun request(query:String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val result = service.getImageSearch(query(query, "1"))
+            val result = service.getImageSearch(query(query, "2"))
             withContext(Dispatchers.Main) {
                 Log.e("ImageSearchUseCaseImpl", "size:: ${result.value.size}")
             }
