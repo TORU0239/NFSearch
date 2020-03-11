@@ -14,27 +14,24 @@ import javax.inject.Inject
 
 
 class ImageSearchUseCaseImpl @Inject constructor(private val service: ImageSearchService): ImageSearchUseCase {
-    override suspend fun request(query:String): ApiResponse<SearchResultWrapper> {
+    override suspend fun request(
+        query:String,
+        pageNumber: Int
+    ): ApiResponse<SearchResultWrapper> {
         return baseResponse {
-            service.getImageSearch(query(query, "2"))
+            service.getImageSearch(query(query, pageNumber))
         }
-//        CoroutineScope(Dispatchers.IO).launch {
-//            val result = service.getImageSearch(query(query, "2"))
-//            withContext(Dispatchers.Main) {
-//                Log.e("ImageSearchUseCaseImpl", "size:: ${result.value.size}")
-//            }
-//        }
     }
 
     private fun query(
         query:String,
-        pageNumber:String
+        pageNumber:Int
     ):HashMap<String, String> {
         val map = HashMap<String,String>()
         map["autoCorrect"] = "true"
         map["safeSearch"] = "false"
         map["q"] = query
-        map["pageNumber"] = pageNumber
+        map["pageNumber"] = pageNumber.toString()
         return map
     }
 

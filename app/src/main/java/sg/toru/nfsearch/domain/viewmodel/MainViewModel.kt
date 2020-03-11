@@ -1,11 +1,15 @@
 package sg.toru.nfsearch.domain.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.*
-import kotlinx.coroutines.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import sg.toru.nfsearch.data.entity.ApiResponse
 import sg.toru.nfsearch.data.entity.SearchResult
-import sg.toru.nfsearch.data.entity.SearchResultWrapper
 import sg.toru.nfsearch.domain.usecase.ImageSearchUseCase
 import javax.inject.Inject
 
@@ -18,18 +22,21 @@ class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase)
     private var job:Job? = null
 
     // Querying to Server by user's input
-    fun request(queryName: String){
+    fun request(
+        queryName: String,
+        pageNumber: Int
+    ){
         Log.e("Toru", "queried name:: $queryName")
         job = viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = useCase.request(queryName)
+                val result = useCase.request(queryName, pageNumber)
                 withContext(Dispatchers.Main) {
                     when (result) {
                         is ApiResponse.ApiSuccess -> {
-                            successResponse.postValue(result.body.value)
+                            successResponse.value = result.body.value
                         }
                         is ApiResponse.ApiFailure -> {
-                            failedResponse.postValue(result.errorMessage)
+                            failedResponse.value = result.errorMessage
                         }
                     }
                 }
@@ -37,11 +44,11 @@ class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase)
         }
     }
 
+    // Stopping job when
     fun stop() {
-        if(job != null) {
-            if (job?.isActive!! && !job?.isCancelled!!) {
-                Log.e("Toru", "MainViewModel Stop!!!!")
-                job?.cancel()
+        job?.let {
+            if (it.isActive && !it.isCancelled) {
+                it.cancel()
             }
         }
     }
@@ -49,6 +56,6 @@ class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase)
     override fun onCleared() {
         super.onCleared()
         Log.e("Toru", "MainViewModel onCleared")
-        job?.cancel()
+        stop()
     }
 }
