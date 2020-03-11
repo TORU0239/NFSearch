@@ -13,12 +13,13 @@
             android:background="?attr/colorPrimary"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:title="@string/app_name"
             app:titleTextColor="@android:color/white"
             app:logo="@mipmap/ic_launcher_reverse"
             app:titleMarginStart="30dp"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            app:menu="@menu/search_menu"/>
         <EditText
             android:id="@+id/edMainSearch"
             android:layout_width="match_parent"

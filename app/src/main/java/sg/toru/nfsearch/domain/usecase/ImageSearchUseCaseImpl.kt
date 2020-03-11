@@ -1,15 +1,9 @@
 package sg.toru.nfsearch.domain.usecase
 
-import android.util.Log
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import retrofit2.Response
 import sg.toru.nfsearch.data.api.ImageSearchService
 import sg.toru.nfsearch.data.entity.ApiResponse
 import sg.toru.nfsearch.data.entity.SearchResultWrapper
-import sg.toru.nfsearch.domain.usecase.ImageSearchUseCase
 import javax.inject.Inject
 
 

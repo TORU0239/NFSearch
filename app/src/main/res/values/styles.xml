@@ -11,6 +11,8 @@
         <item name="colorPrimary">@color/indigoColorPrimary</item>
         <item name="colorPrimaryDark">@color/indigoColorPrimaryDark</item>
         <item name="colorAccent">@color/indigoColorAccent</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="android:editTextColor">@android:color/white</item>
     </style>
 
 </resources>
