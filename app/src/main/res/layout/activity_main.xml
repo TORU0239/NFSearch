@@ -18,7 +18,7 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabBackground="@color/colorPrimary"
+            app:tabBackground="@color/indigoColorPrimary"
             app:tabTextColor="@android:color/white"
             app:tabMode="fixed"/>
         <androidx.viewpager2.widget.ViewPager2
@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:nestedScrollingEnabled="true"
             app:layout_anchor="@id/tabLayout"/>
     </LinearLayout>
 </layout>
