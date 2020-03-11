@@ -15,31 +15,13 @@ import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
 
-    @Inject
-    lateinit var viewModel:MainViewModel
-
     private lateinit var binding:ActivityMainBinding
 
-    override fun initDependencyInjection() {
-        (application as NFApp).appComponent()
-            .mainDomainComponent(MainDomainModule())
-            .injectTo(this)
-    }
+    override fun initDependencyInjection() {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         super.onCreate(savedInstanceState)
-        initView()
-        viewModel.nameLiveData.value = "michael jordan"
-        viewModel.trigger.observe(this, Observer {
-            Log.e("Toru", "return:: $it")
-        })
-    }
-
-    private fun initView() {
-        binding.viewPager.adapter = MainPagerAdapter(this)
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = "POSITION $position"
-        }.attach()
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        supportFragmentManager.beginTransaction().add(R.id.mainFragmentContainer, MainFragment()).commit()
     }
 }
