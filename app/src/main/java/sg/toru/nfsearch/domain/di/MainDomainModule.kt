@@ -6,7 +6,7 @@ import dagger.Module
 import dagger.Provides
 import sg.toru.nfsearch.data.api.ImageSearchService
 import sg.toru.nfsearch.domain.usecase.ImageSearchUseCase
-import sg.toru.nfsearch.domain.usecaseimp.ImageSearchUseCaseImpl
+import sg.toru.nfsearch.domain.usecase.ImageSearchUseCaseImpl
 import sg.toru.nfsearch.domain.viewmodel.MainViewModel
 import javax.inject.Inject
 
@@ -21,7 +21,8 @@ class MainDomainModule {
 
     @PerActivity
     @Provides
-    fun provideImageSearchUseCase(service: ImageSearchService):ImageSearchUseCase = ImageSearchUseCaseImpl(service)
+    fun provideImageSearchUseCase(service: ImageSearchService):ImageSearchUseCase =
+        ImageSearchUseCaseImpl(service)
 }
 
 @Suppress("UNCHECKED_CAST")

@@ -1,5 +1,8 @@
 package sg.toru.nfsearch.domain.usecase
 
+import sg.toru.nfsearch.data.entity.ApiResponse
+import sg.toru.nfsearch.data.entity.SearchResultWrapper
+
 interface ImageSearchUseCase {
-    fun request(query:String)
+    suspend fun request(query:String): ApiResponse<SearchResultWrapper>
 }

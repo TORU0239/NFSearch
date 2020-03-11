@@ -30,10 +30,7 @@ class MainActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         initView()
 
-        mainViewModel.nameLiveData.value = "michael jordan"
-//        mainViewModel.trigger.observe(this, Observer {
-//            Log.e("Toru", "return:: $it")
-//        })
+        mainViewModel.imageQueryLiveData.value = "michael jordan"
     }
 
     private fun initView() {
@@ -46,5 +43,10 @@ class MainActivity : BaseActivity() {
                 else -> tab.text = "Google Search"
             }
         }.attach()
+    }
+
+    override fun onBackPressed() {
+        mainViewModel.stop()
+        super.onBackPressed()
     }
 }

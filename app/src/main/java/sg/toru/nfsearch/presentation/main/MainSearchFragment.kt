@@ -23,12 +23,18 @@ class MainSearchFragment : BaseFragment(R.layout.fragment_main_search) {
         super.onViewCreated(view, savedInstanceState)
         binding = DataBindingUtil.bind(view)
 
-        (requireActivity() as MainActivity).mainViewModel.nameLiveData.observe(viewLifecycleOwner, Observer {
+        val viewModel = (requireActivity() as MainActivity).mainViewModel
+        viewModel.imageQueryLiveData.observe(viewLifecycleOwner, Observer {
             Log.e("Toru", "MainSearchFragment!! $it")
+            viewModel.request(it)
         })
 
-        (requireActivity() as MainActivity).mainViewModel.trigger.observe(viewLifecycleOwner, Observer {
-            Log.e("Toru", "MainSearchFragment return:: $it")
+        viewModel.successResponse.observe(viewLifecycleOwner, Observer {
+            Log.e("Toru", "MainSearchFragment success size:: ${it.size}")
+        })
+
+        viewModel.failedResponse.observe(viewLifecycleOwner, Observer {
+            Log.e("Toru", "MainSearchFragment failed message $it")
         })
     }
 

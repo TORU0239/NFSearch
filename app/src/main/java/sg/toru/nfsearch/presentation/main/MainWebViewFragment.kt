@@ -27,7 +27,7 @@ class MainWebViewFragment : BaseFragment(R.layout.fragment_main_web_view) {
             it.mainWebView.isNestedScrollingEnabled = true
         }
 
-        (requireActivity() as MainActivity).mainViewModel.nameLiveData.observe(viewLifecycleOwner, Observer {
+        (requireActivity() as MainActivity).mainViewModel.imageQueryLiveData.observe(viewLifecycleOwner, Observer {
             Log.e("Toru", "MainWebViewFragment!! $it")
             if (binding?.mainWebView != null) {
                 binding?.mainWebView?.loadUrl("https://www.google.com/search?q=$it")
