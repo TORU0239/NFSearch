@@ -29,9 +29,9 @@ class MainWebViewFragment : BaseFragment(R.layout.fragment_main_web_view) {
     }
 
     override fun initDependencyInjection() {
-        (activity?.application as NFApp).appComponent()
-            .mainDomainComponent(MainDomainModule())
-            .injectTo(this)
+//        (activity?.application as NFApp).appComponent()
+//            .mainDomainComponent(MainDomainModule())
+//            .injectTo(this)
     }
 
     companion object {

@@ -11,5 +11,5 @@ import javax.inject.Singleton
 @Component(modules = [NetworkModule::class])
 interface AppComponent {
     fun injectTo(app:NFApp)
-    fun mainDomainComponent(mainDomainModule: MainDomainModule):MainDomainComponent
+//    fun mainDomainComponent(mainDomainModule: MainDomainModule):MainDomainComponent
 }

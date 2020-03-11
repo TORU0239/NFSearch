@@ -27,9 +27,9 @@ class MainFragment : BaseFragment(R.layout.fragment_main) {
     private var binding: FragmentMainBinding? = null
 
     override fun initDependencyInjection() {
-        (activity?.application as NFApp).appComponent()
-            .mainDomainComponent(MainDomainModule())
-            .injectTo(this)
+//        (activity?.application as NFApp).appComponent()
+//            .mainDomainComponent(MainDomainModule())
+//            .injectTo(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -1,7 +1,6 @@
 package sg.toru.nfsearch.domain.di
 
 import dagger.Subcomponent
-import sg.toru.nfsearch.di.module.NetworkModule
 import sg.toru.nfsearch.presentation.main.MainActivity
 import sg.toru.nfsearch.presentation.main.MainFragment
 import sg.toru.nfsearch.presentation.main.MainSearchFragment
@@ -12,6 +11,11 @@ import sg.toru.nfsearch.presentation.main.MainWebViewFragment
     modules = [MainDomainModule::class]
 )
 interface MainDomainComponent {
+    @Subcomponent.Builder
+    interface Builder {
+        fun partnerModule(module: MainDomainModule): Builder
+        fun build(): MainDomainComponent
+    }
     fun injectTo(activity:MainActivity)
     fun injectTo(fragment:MainFragment)
     fun injectTo(fragment:MainSearchFragment)

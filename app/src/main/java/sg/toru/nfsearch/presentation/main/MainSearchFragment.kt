@@ -21,9 +21,9 @@ class MainSearchFragment : BaseFragment(R.layout.fragment_main_search) {
     private var binding:FragmentMainSearchBinding? = null
 
     override fun initDependencyInjection() {
-        (activity?.application as NFApp).appComponent()
-            .mainDomainComponent(MainDomainModule())
-            .injectTo(this)
+//        (activity?.application as NFApp).appComponent()
+//            .mainDomainComponent(MainDomainModule())
+//            .injectTo(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
