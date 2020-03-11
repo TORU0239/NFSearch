@@ -15,22 +15,20 @@ import javax.inject.Inject
 
 class MainSearchFragment : BaseFragment(R.layout.fragment_main_search) {
 
-    @Inject
-    lateinit var mainViewModel:MainViewModel
-
     private var binding:FragmentMainSearchBinding? = null
 
-    override fun initDependencyInjection() {
-        (activity?.application as NFApp).appComponent()
-            .mainDomainComponent(MainDomainModule())
-            .injectTo(this)
-    }
+    override fun initDependencyInjection() {}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = DataBindingUtil.bind(view)
-        mainViewModel.nameLiveData.observe(viewLifecycleOwner, Observer {
-            Log.e("Toru", "search $it")
+
+        (requireActivity() as MainActivity).mainViewModel.nameLiveData.observe(viewLifecycleOwner, Observer {
+            Log.e("Toru", "MainSearchFragment!! $it")
+        })
+
+        (requireActivity() as MainActivity).mainViewModel.trigger.observe(viewLifecycleOwner, Observer {
+            Log.e("Toru", "MainSearchFragment return:: $it")
         })
     }
 

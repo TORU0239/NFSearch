@@ -32,15 +32,18 @@ class MainActivity : BaseActivity() {
         initView()
 
         mainViewModel.nameLiveData.value = "michael jordan"
-        mainViewModel.trigger.observe(this, Observer {
-            Log.e("Toru", "return:: $it")
-        })
+//        mainViewModel.trigger.observe(this, Observer {
+//            Log.e("Toru", "return:: $it")
+//        })
     }
 
     private fun initView() {
         binding.viewPager.adapter = MainPagerAdapter(this)
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            tab.text = "POSITION $position"
+            when (position) {
+                0 -> tab.text = "Image Search"
+                else -> tab.text = "Google Search"
+            }
         }.attach()
     }
 }
