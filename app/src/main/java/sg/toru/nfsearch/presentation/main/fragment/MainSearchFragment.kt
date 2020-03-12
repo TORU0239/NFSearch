@@ -63,8 +63,9 @@ class MainSearchFragment : BaseFragment() {
         })
         binding.viewModel = mainViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.rcvMainSearch.adapter =
-            MainSearchAdapter()
+        binding.rcvMainSearch.adapter = MainSearchAdapter{
+            Log.e("Toru", "adapter!")
+        }
         binding.rcvMainSearch.addOnScrollListener(scrollListener)
 
         return binding.root

@@ -7,15 +7,8 @@ import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.databinding.ItemMainSearchBinding
 import java.util.*
 
-class MainSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
+class MainSearchAdapter(private val onClick:(SearchResult)->Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var recyclerviewListItem: ArrayList<SearchResult> = ArrayList()
-        set(value) {
-            val currentSize = field.size
-            field = value
-            notifyDataSetChanged()
-        }
-
     fun clearList() {
         if(recyclerviewListItem.isNotEmpty()) {
             recyclerviewListItem.clear()
@@ -35,7 +28,9 @@ class MainSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ItemMainSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return SearchViewHolder(binding)
+        return SearchViewHolder(binding){
+            onClick.invoke(it)
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -45,9 +40,15 @@ class MainSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int = recyclerviewListItem.size
 }
 
-class SearchViewHolder(private val binding: ItemMainSearchBinding): RecyclerView.ViewHolder(binding.root) {
+class SearchViewHolder(
+    private val binding: ItemMainSearchBinding,
+    private val click:(SearchResult)->Unit
+): RecyclerView.ViewHolder(binding.root) {
     fun bindItem(result:SearchResult) {
         binding.item = result
         binding.executePendingBindings()
+        binding.root.setOnClickListener {
+            click.invoke(result)
+        }
     }
 }

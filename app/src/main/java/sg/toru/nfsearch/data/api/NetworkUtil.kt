@@ -9,4 +9,6 @@ object NetworkUtil {
 
     const val HEADER_KEY_APIKEY = "x-rapidapi-key"
     const val HEADER_VALUE_APIKEY = "0d1d22588dmsh064436da0035f61p175155jsndd90b4894d9f"
+
+    const val URL_FOR_SEARCH = "https://www.google.com/search?q="
 }

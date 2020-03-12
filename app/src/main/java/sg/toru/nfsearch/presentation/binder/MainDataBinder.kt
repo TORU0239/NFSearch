@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import sg.toru.nfsearch.R
+import sg.toru.nfsearch.data.api.NetworkUtil.URL_FOR_SEARCH
 import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.presentation.glide.GlideApp
 import sg.toru.nfsearch.presentation.adapter.MainSearchAdapter
@@ -55,6 +56,6 @@ fun View.toast(str:String?) {
 @BindingAdapter("loadingUrl")
 fun WebView.loadingUrl(url:String?) {
     url?.let {
-        this.loadUrl("https://www.google.com/search?q=$it")
+        this.loadUrl("$URL_FOR_SEARCH$it")
     }
 }
