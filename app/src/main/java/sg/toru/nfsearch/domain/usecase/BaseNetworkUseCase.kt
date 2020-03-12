@@ -3,9 +3,8 @@ package sg.toru.nfsearch.domain.usecase
 import retrofit2.Response
 import sg.toru.nfsearch.data.entity.ApiResponse
 
-class UseCaseNetwork {
-
-    private suspend fun<T> baseResponse(apiCall:suspend ()-> Response<T>): ApiResponse<T> {
+open class BaseNetworkUseCase {
+    suspend fun<T> baseResponse(apiCall:suspend ()-> Response<T>): ApiResponse<T> {
         val response: Response<T>
         try {
             response = apiCall.invoke()

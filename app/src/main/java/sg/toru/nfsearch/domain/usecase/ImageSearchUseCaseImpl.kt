@@ -7,7 +7,9 @@ import sg.toru.nfsearch.data.entity.SearchResultWrapper
 import javax.inject.Inject
 
 
-class ImageSearchUseCaseImpl @Inject constructor(private val service: ImageSearchService): ImageSearchUseCase {
+class ImageSearchUseCaseImpl @Inject constructor(
+    private val service: ImageSearchService
+): BaseNetworkUseCase(), ImageSearchUseCase {
     override suspend fun request(
         query:String,
         pageNumber: Int
@@ -27,24 +29,5 @@ class ImageSearchUseCaseImpl @Inject constructor(private val service: ImageSearc
         map["q"] = query
         map["pageNumber"] = pageNumber.toString()
         return map
-    }
-
-    private suspend fun<T> baseResponse(apiCall:suspend ()-> Response<T>): ApiResponse<T> {
-        val response: Response<T>
-        try {
-            response = apiCall.invoke()
-        } catch (exception:Exception){
-            exception.printStackTrace()
-            // Exception
-            return ApiResponse.ApiFailure(exception.message!!)
-        }
-
-        return if(response.isSuccessful) {
-            // Success
-            ApiResponse.ApiSuccess(response.body()!!)
-        } else {
-            // Failure
-            ApiResponse.ApiFailure(response.message())
-        }
     }
 }
