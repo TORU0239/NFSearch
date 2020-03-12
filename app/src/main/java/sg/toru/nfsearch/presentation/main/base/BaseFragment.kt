@@ -1,4 +1,4 @@
-package sg.toru.nfsearch.presentation
+package sg.toru.nfsearch.presentation.main.base
 
 import android.content.Context
 import androidx.fragment.app.Fragment

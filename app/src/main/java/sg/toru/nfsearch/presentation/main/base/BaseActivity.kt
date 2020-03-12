@@ -1,4 +1,4 @@
-package sg.toru.nfsearch.presentation
+package sg.toru.nfsearch.presentation.main.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

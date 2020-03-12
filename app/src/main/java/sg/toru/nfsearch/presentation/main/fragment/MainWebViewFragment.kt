@@ -1,4 +1,4 @@
-package sg.toru.nfsearch.presentation.main
+package sg.toru.nfsearch.presentation.main.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import sg.toru.nfsearch.R
 import sg.toru.nfsearch.databinding.FragmentMainWebViewBinding
-import sg.toru.nfsearch.presentation.BaseFragment
+import sg.toru.nfsearch.presentation.main.base.BaseFragment
+import sg.toru.nfsearch.presentation.main.activity.MainActivity
 
 
 class MainWebViewFragment : BaseFragment() {
@@ -38,6 +39,7 @@ class MainWebViewFragment : BaseFragment() {
     override fun initDependencyInjection() {}
 
     companion object {
-        fun getInstance() = MainWebViewFragment()
+        fun getInstance() =
+            MainWebViewFragment()
     }
 }

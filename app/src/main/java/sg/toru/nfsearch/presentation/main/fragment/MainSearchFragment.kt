@@ -1,4 +1,4 @@
-package sg.toru.nfsearch.presentation.main
+package sg.toru.nfsearch.presentation.main.fragment
 
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +13,11 @@ import sg.toru.nfsearch.app.NFApp
 import sg.toru.nfsearch.databinding.FragmentMainSearchBinding
 import sg.toru.nfsearch.domain.di.MainDomainModule
 import sg.toru.nfsearch.domain.viewmodel.MainViewModel
-import sg.toru.nfsearch.presentation.BaseFragment
+import sg.toru.nfsearch.presentation.main.base.BaseFragment
+import sg.toru.nfsearch.presentation.adapter.MainSearchAdapter
+import sg.toru.nfsearch.presentation.main.InfiniteScrollListener
+import sg.toru.nfsearch.presentation.main.OnLoadMoreListener
+import sg.toru.nfsearch.presentation.main.activity.MainActivity
 import javax.inject.Inject
 
 class MainSearchFragment : BaseFragment() {
@@ -29,7 +33,7 @@ class MainSearchFragment : BaseFragment() {
             loadMoreListener
         )
     }
-    private val loadMoreListener:OnLoadMoreListener by lazy {
+    private val loadMoreListener: OnLoadMoreListener by lazy {
         object : OnLoadMoreListener {
             override fun onLoadMore() {
                 Log.e("Toru", "Added!!!")
@@ -59,7 +63,8 @@ class MainSearchFragment : BaseFragment() {
         })
         binding.viewModel = mainViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.rcvMainSearch.adapter = MainSearchAdapter()
+        binding.rcvMainSearch.adapter =
+            MainSearchAdapter()
         binding.rcvMainSearch.addOnScrollListener(scrollListener)
 
         return binding.root
@@ -77,6 +82,7 @@ class MainSearchFragment : BaseFragment() {
     }
 
     companion object {
-        fun getInstance() = MainSearchFragment()
+        fun getInstance() =
+            MainSearchFragment()
     }
 }

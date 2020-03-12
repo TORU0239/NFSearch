@@ -1,21 +1,16 @@
 package sg.toru.nfsearch.presentation.binder
 
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.NetworkPolicy
-import com.squareup.picasso.Picasso
 import sg.toru.nfsearch.R
 import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.presentation.glide.GlideApp
-import sg.toru.nfsearch.presentation.main.MainSearchAdapter
+import sg.toru.nfsearch.presentation.adapter.MainSearchAdapter
 
 @BindingAdapter("loadImage")
 fun ImageView.loadImage(url:String) {

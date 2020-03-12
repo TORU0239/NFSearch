@@ -1,4 +1,4 @@
-package sg.toru.nfsearch.presentation.main
+package sg.toru.nfsearch.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

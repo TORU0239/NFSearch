@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:toast="@{viewModel.failedResponse}"
-        tools:context=".presentation.main.MainSearchFragment">
+        tools:context=".presentation.main.fragment.MainSearchFragment">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcvMainSearch"
             android:layout_width="match_parent"
