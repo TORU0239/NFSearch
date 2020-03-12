@@ -27,6 +27,7 @@ class ImageSearchUseCaseImpl @Inject constructor(
         map["autoCorrect"] = "true"
         map["safeSearch"] = "false"
         map["q"] = query
+        map["pageSize"] = "20"
         map["pageNumber"] = pageNumber.toString()
         return map
     }
