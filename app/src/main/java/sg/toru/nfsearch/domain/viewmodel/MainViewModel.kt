@@ -17,9 +17,11 @@ class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase)
     val successResponse = MutableLiveData<List<SearchResult>>()
     val failedResponse = MutableLiveData<String>()
     var loadingProgress = MutableLiveData(false)
+    var clearCurrentList = MutableLiveData(false)
 
     private var job:Job? = null
     var currentPage:Int = -1
+    var currentQuery:String = ""
 
 
     private fun setLoadingStatus(status:Boolean) {
@@ -33,6 +35,7 @@ class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase)
     ){
         Log.e("Toru", "queried name:: $queryName, current page: $pageNumber")
         currentPage = pageNumber
+
         setLoadingStatus(true)
         job = viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -42,6 +45,12 @@ class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase)
                     when (result) {
                         is ApiResponse.ApiSuccess -> {
                             successResponse.value = result.body.value
+                            if (currentQuery != queryName) {
+                                currentQuery = queryName
+                                clearCurrentList.value = true
+                            } else {
+                                clearCurrentList.value = false
+                            }
                         }
                         is ApiResponse.ApiFailure -> {
                             failedResponse.value = result.errorMessage

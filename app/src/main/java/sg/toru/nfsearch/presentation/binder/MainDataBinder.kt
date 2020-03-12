@@ -28,10 +28,17 @@ fun ImageView.loadImage(url:String) {
         .into(this)
 }
 
-@BindingAdapter("addItems")
-fun RecyclerView.addItems(itemLists:List<SearchResult>?) {
+@BindingAdapter("addItems", "clearCurrentList", requireAll = true)
+fun RecyclerView.addItems(
+    itemLists:List<SearchResult>?,
+    isClearCurrentList:Boolean?
+) {
     itemLists?.let{
-        Log.e("Toru", "MainDataBinder success size:: ${it.size}")
+        isClearCurrentList?.let { clear ->
+            if(clear) {
+                ((this.adapter) as MainSearchAdapter).clearList()
+            }
+        }
         ((this.adapter) as MainSearchAdapter).updateList(itemLists as ArrayList<SearchResult>)
     }
 }

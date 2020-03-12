@@ -20,6 +20,7 @@
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
             app:addItems="@{viewModel.successResponse}"
+            app:clearCurrentList="@{viewModel.clearCurrentList}"
             tools:listitem="@layout/item_main_search"/>
 
         <ProgressBar

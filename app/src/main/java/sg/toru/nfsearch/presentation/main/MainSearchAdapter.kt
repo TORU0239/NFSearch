@@ -1,11 +1,8 @@
 package sg.toru.nfsearch.presentation.main
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import okhttp3.internal.notify
 import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.databinding.ItemMainSearchBinding
 import java.util.*
@@ -20,7 +17,9 @@ class MainSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
 
     fun clearList() {
-        recyclerviewListItem.clear()
+        if(recyclerviewListItem.isNotEmpty()) {
+            recyclerviewListItem.clear()
+        }
     }
 
     fun updateList(resultList:ArrayList<SearchResult>) {
@@ -52,5 +51,3 @@ class SearchViewHolder(private val binding: ItemMainSearchBinding): RecyclerView
         binding.executePendingBindings()
     }
 }
-
-class LoadingViewHolder(view: View): RecyclerView.ViewHolder(view)
