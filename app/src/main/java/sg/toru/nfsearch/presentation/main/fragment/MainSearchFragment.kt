@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import sg.toru.nfsearch.R
 import sg.toru.nfsearch.app.NFApp
+import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.databinding.FragmentMainSearchBinding
 import sg.toru.nfsearch.domain.di.MainDomainModule
 import sg.toru.nfsearch.domain.viewmodel.MainViewModel
@@ -63,12 +64,14 @@ class MainSearchFragment : BaseFragment() {
         })
         binding.viewModel = mainViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.rcvMainSearch.adapter = MainSearchAdapter{
-            Log.e("Toru", "adapter!")
-        }
+        binding.rcvMainSearch.adapter = MainSearchAdapter(::showingPopup)
         binding.rcvMainSearch.addOnScrollListener(scrollListener)
 
         return binding.root
+    }
+
+    private fun showingPopup(result:SearchResult) {
+        Log.e("Toru", "adapter, ${result.title}")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

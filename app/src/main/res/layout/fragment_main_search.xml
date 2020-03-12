@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:nestedScrollingEnabled="true"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
+            app:spanCount="3"
             app:addItems="@{viewModel.successResponse}"
             app:clearCurrentList="@{viewModel.clearCurrentList}"
             tools:listitem="@layout/item_main_search"/>
