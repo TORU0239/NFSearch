@@ -1,10 +1,12 @@
 package sg.toru.nfsearch.presentation.main.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -43,13 +45,26 @@ class MainSearchFragment : BaseFragment() {
         }
     }
 
+    private var currentQuery:String = ""
+
+    private val onBackPressedCallback:OnBackPressedCallback by lazy {
+        object:OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                mainViewModel.stop()
+            }
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
+    }
+    
     override fun initDependencyInjection() {
         (requireActivity().application as NFApp).appComponent()
             .mainDomainComponent(MainDomainModule())
             .injectTo(this)
     }
-
-    private var currentQuery:String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -84,6 +99,8 @@ class MainSearchFragment : BaseFragment() {
             Log.e("Toru", "MainSearchFragment failed message $it")
         })
     }
+
+
 
     companion object {
         fun getInstance() =

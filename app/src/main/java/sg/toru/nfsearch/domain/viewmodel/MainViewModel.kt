@@ -39,21 +39,25 @@ class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase)
         setLoadingStatus(true)
         job = viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val result = useCase.request(queryName, pageNumber)
-                withContext(Dispatchers.Main) {
-                    setLoadingStatus(false)
-                    when (result) {
-                        is ApiResponse.ApiSuccess -> {
-                            successResponse.value = result.body.value
-                            if (currentQuery != queryName) {
-                                currentQuery = queryName
-                                clearCurrentList.value = true
-                            } else {
-                                clearCurrentList.value = false
+                if(job?.isCancelled!! || job?.isCompleted!!) {
+                    job?.cancel()
+                }  else {
+                    val result = useCase.request(queryName, pageNumber)
+                    withContext(Dispatchers.Main) {
+                        setLoadingStatus(false)
+                        when (result) {
+                            is ApiResponse.ApiSuccess -> {
+                                successResponse.value = result.body.value
+                                if (currentQuery != queryName) {
+                                    currentQuery = queryName
+                                    clearCurrentList.value = true
+                                } else {
+                                    clearCurrentList.value = false
+                                }
                             }
-                        }
-                        is ApiResponse.ApiFailure -> {
-                            failedResponse.value = result.errorMessage
+                            is ApiResponse.ApiFailure -> {
+                                failedResponse.value = result.errorMessage
+                            }
                         }
                     }
                 }
