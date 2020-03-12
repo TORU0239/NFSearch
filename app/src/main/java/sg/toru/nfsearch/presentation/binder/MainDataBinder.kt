@@ -1,7 +1,9 @@
 package sg.toru.nfsearch.presentation.binder
 
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -31,4 +33,9 @@ fun RecyclerView.addItems(itemLists:List<SearchResult>?) {
         Log.e("Toru", "MainDataBinder success size:: ${it.size}")
         ((this.adapter) as MainSearchAdapter).updateList(itemLists as ArrayList<SearchResult>)
     }
+}
+
+@BindingAdapter("currentLoadingStatus")
+fun ProgressBar.currentLoadingStatus(status:Boolean) {
+    this.visibility = if (status) View.VISIBLE else View.GONE
 }

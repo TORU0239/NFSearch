@@ -51,7 +51,6 @@ class MainSearchFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         mainViewModel.successResponse.observe(viewLifecycleOwner, Observer {
             Log.e("Toru", "MainSearchFragment success size:: ${it.size}")
-//            binding.adapter?.updateList(it as ArrayList<SearchResult>)
         })
         mainViewModel.failedResponse.observe(viewLifecycleOwner, Observer {
             Log.e("Toru", "MainSearchFragment failed message $it")

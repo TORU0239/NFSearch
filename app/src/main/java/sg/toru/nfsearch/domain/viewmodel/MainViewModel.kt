@@ -14,12 +14,15 @@ import sg.toru.nfsearch.domain.usecase.ImageSearchUseCase
 import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase):ViewModel() {
-
-    val imageQueryLiveData = MutableLiveData<String>()
     val successResponse = MutableLiveData<List<SearchResult>>()
     val failedResponse = MutableLiveData<String>()
+    var loadingProgress = MutableLiveData<Boolean>(false)
 
     private var job:Job? = null
+
+    private fun setLoadingStatus(status:Boolean) {
+        loadingProgress.value = status
+    }
 
     // Querying to Server by user's input
     fun request(
@@ -27,10 +30,12 @@ class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase)
         pageNumber: Int
     ){
         Log.e("Toru", "queried name:: $queryName")
+        setLoadingStatus(true)
         job = viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val result = useCase.request(queryName, pageNumber)
                 withContext(Dispatchers.Main) {
+                    setLoadingStatus(false)
                     when (result) {
                         is ApiResponse.ApiSuccess -> {
                             successResponse.value = result.body.value

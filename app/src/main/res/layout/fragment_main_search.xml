@@ -20,5 +20,14 @@
             app:spanCount="2"
             app:addItems="@{viewModel.successResponse}"
             tools:listitem="@layout/item_main_search"/>
+
+        <ProgressBar
+            style="?attr/indeterminateProgressStyle"
+            android:id="@+id/progressMainSearch"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:currentLoadingStatus="@{viewModel.loadingProgress}"/>
     </FrameLayout>
 </layout>
