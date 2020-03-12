@@ -14,7 +14,6 @@ import sg.toru.nfsearch.databinding.ActivityMainBinding
 import sg.toru.nfsearch.domain.di.MainDomainModule
 import sg.toru.nfsearch.domain.viewmodel.MainViewModel
 import sg.toru.nfsearch.presentation.BaseActivity
-import sg.toru.nfsearch.presentation.extension.hideKeyboard
 import sg.toru.nfsearch.presentation.extension.reduceDragSensitivity
 import javax.inject.Inject
 
@@ -35,12 +34,6 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         initView()
-
-        binding.edMainSearch.setOnEditorActionListener { v, _, _ ->
-            mainViewModel.imageQueryLiveData.value = v.text.toString()
-            binding.edMainSearch.hideKeyboard()
-            true
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

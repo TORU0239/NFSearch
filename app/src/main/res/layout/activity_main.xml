@@ -20,14 +20,7 @@
             app:titleMarginStart="30dp"
             app:layout_scrollFlags="scroll|enterAlways"
             app:menu="@menu/search_menu"/>
-        <EditText
-            android:id="@+id/edMainSearch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:inputType="text"
-            android:imeOptions="actionDone"/>
-
+        
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
