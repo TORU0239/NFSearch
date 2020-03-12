@@ -2,38 +2,36 @@ package sg.toru.nfsearch.presentation.main
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.webkit.WebSettings.PluginState
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import sg.toru.nfsearch.R
 import sg.toru.nfsearch.databinding.FragmentMainWebViewBinding
-import sg.toru.nfsearch.domain.viewmodel.MainViewModel
 import sg.toru.nfsearch.presentation.BaseFragment
-import javax.inject.Inject
 
 
-class MainWebViewFragment : BaseFragment(R.layout.fragment_main_web_view) {
-    @Inject
-    lateinit var viewModel:MainViewModel
+class MainWebViewFragment : BaseFragment() {
+    private lateinit var binding:FragmentMainWebViewBinding
 
-    private var binding:FragmentMainWebViewBinding? = null
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_web_view, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = DataBindingUtil.bind(view)
-        binding?.let {
-            it.mainWebView.settings.javaScriptEnabled = true
-            it.mainWebView.isNestedScrollingEnabled = true
-        }
+        binding.mainWebView.settings.javaScriptEnabled = true
+        binding.mainWebView.isNestedScrollingEnabled = true
 
-        (requireActivity() as MainActivity).mainViewModel.imageQueryLiveData.observe(viewLifecycleOwner, Observer {
+        (requireActivity() as MainActivity).imageQueryLiveData.observe(viewLifecycleOwner, Observer {
             Log.e("Toru", "MainWebViewFragment!! $it")
-            if (binding?.mainWebView != null) {
-                binding?.mainWebView?.loadUrl("https://www.google.com/search?q=$it")
-            } else {
-                Log.e("Toru", "MainWebViewFragment!! WebView is null!")
-            }
+            binding.mainWebView.loadUrl("https://www.google.com/search?q=$it")
         })
     }
 

@@ -7,6 +7,7 @@ import android.view.Menu
 import android.widget.ImageView
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.MutableLiveData
 import com.google.android.material.tabs.TabLayoutMediator
 import sg.toru.nfsearch.R
 import sg.toru.nfsearch.app.NFApp
@@ -20,21 +21,14 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     private lateinit var binding:ActivityMainBinding
-
-    @Inject
-    lateinit var mainViewModel: MainViewModel
-
-    override fun initDependencyInjection() {
-        (application as NFApp).appComponent()
-            .mainDomainComponent(MainDomainModule())
-            .injectTo(this)
-    }
+    val imageQueryLiveData = MutableLiveData<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         initView()
     }
+    override fun initDependencyInjection() {}
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
@@ -49,7 +43,7 @@ class MainActivity : BaseActivity() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 searchView.clearFocus()
                 query?.let{ q ->
-                    mainViewModel.imageQueryLiveData.value = q
+                    imageQueryLiveData.value = q
                 }
                 return false
             }
@@ -72,10 +66,5 @@ class MainActivity : BaseActivity() {
                 else -> tab.text = "Google Search"
             }
         }.attach()
-    }
-
-    override fun onBackPressed() {
-        mainViewModel.stop()
-        super.onBackPressed()
     }
 }

@@ -2,48 +2,60 @@ package sg.toru.nfsearch.presentation.main
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import sg.toru.nfsearch.R
+import sg.toru.nfsearch.app.NFApp
 import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.databinding.FragmentMainSearchBinding
+import sg.toru.nfsearch.domain.di.MainDomainModule
+import sg.toru.nfsearch.domain.viewmodel.MainViewModel
 import sg.toru.nfsearch.presentation.BaseFragment
 import java.util.*
+import javax.inject.Inject
 
-class MainSearchFragment : BaseFragment(R.layout.fragment_main_search) {
+class MainSearchFragment : BaseFragment() {
 
-    private var binding:FragmentMainSearchBinding? = null
+    private lateinit var binding:FragmentMainSearchBinding
 
-    override fun initDependencyInjection() {}
+    @Inject
+    lateinit var mainViewModel: MainViewModel
+
+    override fun initDependencyInjection() {
+        (requireActivity().application as NFApp).appComponent()
+            .mainDomainComponent(MainDomainModule())
+            .injectTo(this)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_search, container, false)
+        (requireActivity() as MainActivity).imageQueryLiveData.observe(viewLifecycleOwner, Observer {
+            Log.e("Toru", "MainSearchFragment!! $it")
+            mainViewModel.request(it, 1)
+        })
+        binding.viewModel = mainViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.rcvMainSearch.adapter = MainSearchAdapter()
+        binding.executePendingBindings()
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = DataBindingUtil.bind(view)
-
-        initView()
-
-        val viewModel = (requireActivity() as MainActivity).mainViewModel
-        viewModel.imageQueryLiveData.observe(viewLifecycleOwner, Observer {
-            Log.e("Toru", "MainSearchFragment!! $it")
-            viewModel.request(it, 1)
-        })
-
-        viewModel.successResponse.observe(viewLifecycleOwner, Observer {
+        mainViewModel.successResponse.observe(viewLifecycleOwner, Observer {
             Log.e("Toru", "MainSearchFragment success size:: ${it.size}")
-//            (binding?.rcvMainSearch?.adapter as MainSearchAdapter).recyclerviewListItem = it as ArrayList<SearchResult>
-            (binding?.rcvMainSearch?.adapter as MainSearchAdapter).updateList(it as ArrayList<SearchResult>)
+//            binding.adapter?.updateList(it as ArrayList<SearchResult>)
         })
-
-        viewModel.failedResponse.observe(viewLifecycleOwner, Observer {
+        mainViewModel.failedResponse.observe(viewLifecycleOwner, Observer {
             Log.e("Toru", "MainSearchFragment failed message $it")
         })
-    }
-
-    private fun initView() {
-        val adapter = MainSearchAdapter()
-        binding?.rcvMainSearch?.adapter = adapter
-
     }
 
     companion object {
