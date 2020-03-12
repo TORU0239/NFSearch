@@ -24,10 +24,10 @@ class ImageSearchUseCaseImpl @Inject constructor(
         pageNumber:Int
     ):HashMap<String, String> {
         val map = HashMap<String,String>()
-        map["autoCorrect"] = "true"
+        map["autoCorrect"] = "false"
         map["safeSearch"] = "false"
         map["q"] = query
-        map["pageSize"] = "30"
+        map["pageSize"] = "24"
         map["pageNumber"] = pageNumber.toString()
         return map
     }
