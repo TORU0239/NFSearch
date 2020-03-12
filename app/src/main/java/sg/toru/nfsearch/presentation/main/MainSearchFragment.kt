@@ -9,12 +9,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import sg.toru.nfsearch.R
 import sg.toru.nfsearch.app.NFApp
-import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.databinding.FragmentMainSearchBinding
 import sg.toru.nfsearch.domain.di.MainDomainModule
 import sg.toru.nfsearch.domain.viewmodel.MainViewModel
 import sg.toru.nfsearch.presentation.BaseFragment
-import java.util.*
 import javax.inject.Inject
 
 class MainSearchFragment : BaseFragment() {
@@ -43,7 +41,7 @@ class MainSearchFragment : BaseFragment() {
         binding.viewModel = mainViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.rcvMainSearch.adapter = MainSearchAdapter()
-        binding.executePendingBindings()
+
         return binding.root
     }
 
