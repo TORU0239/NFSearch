@@ -19,14 +19,10 @@ import sg.toru.nfsearch.presentation.main.MainSearchAdapter
 
 @BindingAdapter("loadImage")
 fun ImageView.loadImage(url:String) {
-//    GlideApp.with(this)
-//        .load(url)
-//        .diskCacheStrategy(DiskCacheStrategy.NONE)
-//        .skipMemoryCache(true)
-//        .into(this)
-    Picasso.get().load(url)
-        .memoryPolicy(MemoryPolicy.NO_CACHE)
-        .networkPolicy(NetworkPolicy.NO_CACHE)
+    GlideApp.with(this)
+        .load(url)
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .skipMemoryCache(false)
         .placeholder(R.drawable.placeholder)
         .error(R.drawable.placeholder)
         .into(this)

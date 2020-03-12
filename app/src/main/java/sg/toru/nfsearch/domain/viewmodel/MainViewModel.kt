@@ -16,9 +16,11 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase):ViewModel() {
     val successResponse = MutableLiveData<List<SearchResult>>()
     val failedResponse = MutableLiveData<String>()
-    var loadingProgress = MutableLiveData<Boolean>(false)
+    var loadingProgress = MutableLiveData(false)
 
     private var job:Job? = null
+    var currentPage:Int = -1
+
 
     private fun setLoadingStatus(status:Boolean) {
         loadingProgress.value = status
@@ -29,7 +31,8 @@ class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase)
         queryName: String,
         pageNumber: Int
     ){
-        Log.e("Toru", "queried name:: $queryName")
+        Log.e("Toru", "queried name:: $queryName, current page: $pageNumber")
+        currentPage = pageNumber
         setLoadingStatus(true)
         job = viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -49,7 +52,7 @@ class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase)
         }
     }
 
-    // Stopping job when
+    // Stopping job when user exits
     fun stop() {
         job?.let {
             if (it.isActive && !it.isCancelled) {

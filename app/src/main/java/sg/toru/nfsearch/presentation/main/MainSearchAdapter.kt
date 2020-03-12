@@ -5,11 +5,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import okhttp3.internal.notify
 import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.databinding.ItemMainSearchBinding
 import java.util.*
 
-class MainSearchAdapter(private val itemCallback: MainItemCallback?= null): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainSearchAdapter(): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var recyclerviewListItem: ArrayList<SearchResult> = ArrayList()
         set(value) {
@@ -23,9 +24,14 @@ class MainSearchAdapter(private val itemCallback: MainItemCallback?= null): Recy
     }
 
     fun updateList(resultList:ArrayList<SearchResult>) {
-        recyclerviewListItem.clear()
-        recyclerviewListItem = resultList
-        notifyDataSetChanged()
+        if(recyclerviewListItem.isEmpty()) {
+            recyclerviewListItem = resultList
+            notifyDataSetChanged()
+        } else {
+            val prevSize = recyclerviewListItem.size
+            recyclerviewListItem.addAll(resultList)
+            notifyItemInserted(prevSize)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -38,11 +44,6 @@ class MainSearchAdapter(private val itemCallback: MainItemCallback?= null): Recy
     }
 
     override fun getItemCount(): Int = recyclerviewListItem.size
-}
-
-class MainItemCallback(): DiffUtil.ItemCallback<SearchResult>(){
-    override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean = (oldItem == newItem)
-    override fun areContentsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean = (oldItem == newItem)
 }
 
 class SearchViewHolder(private val binding: ItemMainSearchBinding): RecyclerView.ViewHolder(binding.root) {

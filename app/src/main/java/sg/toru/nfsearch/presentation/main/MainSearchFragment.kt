@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.GridLayoutManager
 import sg.toru.nfsearch.R
 import sg.toru.nfsearch.app.NFApp
 import sg.toru.nfsearch.databinding.FragmentMainSearchBinding
@@ -17,10 +18,25 @@ import javax.inject.Inject
 
 class MainSearchFragment : BaseFragment() {
 
-    private lateinit var binding:FragmentMainSearchBinding
+    private lateinit var binding: FragmentMainSearchBinding
 
     @Inject
     lateinit var mainViewModel: MainViewModel
+
+    private val scrollListener: InfiniteScrollListener by lazy {
+        InfiniteScrollListener(
+            (binding.rcvMainSearch.layoutManager as GridLayoutManager),
+            loadMoreListener
+        )
+    }
+    private val loadMoreListener:OnLoadMoreListener by lazy {
+        object : OnLoadMoreListener {
+            override fun onLoadMore() {
+                Log.e("Toru", "Added!!!")
+                mainViewModel.request(currentQuery, ++mainViewModel.currentPage)
+            }
+        }
+    }
 
     override fun initDependencyInjection() {
         (requireActivity().application as NFApp).appComponent()
@@ -28,19 +44,23 @@ class MainSearchFragment : BaseFragment() {
             .injectTo(this)
     }
 
+    private var currentQuery:String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main_search, container, false)
-        (requireActivity() as MainActivity).imageQueryLiveData.observe(viewLifecycleOwner, Observer {
-            Log.e("Toru", "MainSearchFragment!! $it")
-            mainViewModel.request(it, 1)
+        (requireActivity() as MainActivity).imageQueryLiveData.observe(viewLifecycleOwner, Observer { query ->
+            Log.e("Toru", "MainSearchFragment!! $query")
+            currentQuery = query
+            mainViewModel.request(query, 1)
         })
         binding.viewModel = mainViewModel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.rcvMainSearch.adapter = MainSearchAdapter()
+        binding.rcvMainSearch.addOnScrollListener(scrollListener)
 
         return binding.root
     }
@@ -49,6 +69,7 @@ class MainSearchFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         mainViewModel.successResponse.observe(viewLifecycleOwner, Observer {
             Log.e("Toru", "MainSearchFragment success size:: ${it.size}")
+            scrollListener.setLoaded()
         })
         mainViewModel.failedResponse.observe(viewLifecycleOwner, Observer {
             Log.e("Toru", "MainSearchFragment failed message $it")
