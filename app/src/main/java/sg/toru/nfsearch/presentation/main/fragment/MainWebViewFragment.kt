@@ -30,9 +30,9 @@ class MainWebViewFragment : BaseFragment() {
         binding.mainWebView.settings.javaScriptEnabled = true
         binding.mainWebView.isNestedScrollingEnabled = true
 
+
         (requireActivity() as MainActivity).imageQueryLiveData.observe(viewLifecycleOwner, Observer {
-            Log.e("Toru", "MainWebViewFragment!! $it")
-            binding.mainWebView.loadUrl("https://www.google.com/search?q=$it")
+            binding.url = it
         })
     }
 

@@ -1,6 +1,7 @@
 package sg.toru.nfsearch.presentation.binder
 
 import android.view.View
+import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -48,5 +49,12 @@ fun View.toast(str:String?) {
     str?.let {
         val error = String.format(context.getString(R.string.error_message), it)
         Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+    }
+}
+
+@BindingAdapter("loadingUrl")
+fun WebView.loadingUrl(url:String?) {
+    url?.let {
+        this.loadUrl("https://www.google.com/search?q=$it")
     }
 }
