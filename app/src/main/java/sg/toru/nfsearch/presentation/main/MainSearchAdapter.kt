@@ -5,17 +5,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.databinding.ItemMainSearchBinding
 import java.util.*
 
-class MainSearchAdapter(private val itemCallback: MainItemCallback): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class MainSearchAdapter(private val itemCallback: MainItemCallback?= null): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var recyclerviewListItem: LinkedList<String> = LinkedList()
+    var recyclerviewListItem: ArrayList<SearchResult> = ArrayList()
         set(value) {
             val currentSize = field.size
             field = value
-            notifyItemInserted(currentSize)
+            notifyDataSetChanged()
         }
+
+    fun clearList() {
+        recyclerviewListItem.clear()
+    }
+
+    fun updateList(resultList:ArrayList<SearchResult>) {
+        recyclerviewListItem.clear()
+        recyclerviewListItem = resultList
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val binding = ItemMainSearchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -29,13 +40,16 @@ class MainSearchAdapter(private val itemCallback: MainItemCallback): RecyclerVie
     override fun getItemCount(): Int = recyclerviewListItem.size
 }
 
-class MainItemCallback(): DiffUtil.ItemCallback<String>(){
-    override fun areItemsTheSame(oldItem: String, newItem: String): Boolean = (oldItem == newItem)
-    override fun areContentsTheSame(oldItem: String, newItem: String): Boolean = (oldItem == newItem)
+class MainItemCallback(): DiffUtil.ItemCallback<SearchResult>(){
+    override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean = (oldItem == newItem)
+    override fun areContentsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean = (oldItem == newItem)
 }
 
 class SearchViewHolder(private val binding: ItemMainSearchBinding): RecyclerView.ViewHolder(binding.root) {
-    fun bindItem(str:String) {}
+    fun bindItem(result:SearchResult) {
+        binding.item = result
+        binding.executePendingBindings()
+    }
 }
 
 class LoadingViewHolder(view: View): RecyclerView.ViewHolder(view)

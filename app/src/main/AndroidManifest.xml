@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_new"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
-        android:name=".app.NFApp">
+        android:name=".app.NFApp"
+        android:usesCleartextTraffic="true">
         <activity android:name=".presentation.main.MainActivity"
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>

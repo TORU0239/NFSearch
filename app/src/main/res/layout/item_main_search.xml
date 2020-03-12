@@ -2,6 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="item"
+            type="sg.toru.nfsearch.data.entity.SearchResult" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -10,6 +15,8 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:loadImage="@{item.thumbnail}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintDimensionRatio="2:3"
