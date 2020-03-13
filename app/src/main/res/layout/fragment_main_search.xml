@@ -23,7 +23,6 @@
             app:addItems="@{viewModel.successResponse}"
             app:clearCurrentList="@{viewModel.clearCurrentList}"
             tools:listitem="@layout/item_main_search"/>
-
         <ProgressBar
             style="?attr/indeterminateProgressStyle"
             android:id="@+id/progressMainSearch"

@@ -83,7 +83,11 @@ fun RecyclerView.addItems(
                 ((this.adapter) as MainSearchAdapter).clearList()
             }
         }
-        ((this.adapter) as MainSearchAdapter).updateList(itemLists as ArrayList<SearchResult>)
+        if(it.isEmpty()) {
+            Toast.makeText(context, R.string.no_item, Toast.LENGTH_LONG).show()
+        } else {
+            ((this.adapter) as MainSearchAdapter).updateList(itemLists as ArrayList<SearchResult>)
+        }
     }
 }
 
