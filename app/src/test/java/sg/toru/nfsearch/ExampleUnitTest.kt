@@ -14,4 +14,11 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+    @Test
+    fun nextPaginationIndex() {
+        val currentSize = 19
+        val next = (currentSize / 10) + 1
+        assertEquals(2, next)
+    }
 }

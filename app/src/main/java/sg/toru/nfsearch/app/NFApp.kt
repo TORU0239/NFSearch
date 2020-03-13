@@ -3,6 +3,7 @@ package sg.toru.nfsearch.app
 import android.app.Application
 import sg.toru.nfsearch.di.component.AppComponent
 import sg.toru.nfsearch.di.component.DaggerAppComponent
+import sg.toru.nfsearch.di.module.AppModule
 
 class NFApp: Application() {
     private lateinit var appComponent: AppComponent
@@ -14,7 +15,9 @@ class NFApp: Application() {
     }
 
     private fun initDependencyInjection() {
-        appComponent = DaggerAppComponent.builder().build()
+        appComponent = DaggerAppComponent.builder()
+            .appModule(AppModule(this))
+            .build()
         appComponent.injectTo(this)
     }
 }

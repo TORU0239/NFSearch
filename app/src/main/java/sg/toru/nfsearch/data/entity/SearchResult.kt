@@ -1,5 +1,9 @@
 package sg.toru.nfsearch.data.entity
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class SearchResult (
     val url:String,
     val height:Int,
@@ -7,8 +11,9 @@ data class SearchResult (
     val thumbnail:String,
     val thumbnailHeight:String,
     val thumbnailWidth:String,
-    val base64Encoding:String,
+    val base64Encoding:String?,
     val name:String,
+    @PrimaryKey
     val title:String,
     val imageWebSearchUrl:String
 )

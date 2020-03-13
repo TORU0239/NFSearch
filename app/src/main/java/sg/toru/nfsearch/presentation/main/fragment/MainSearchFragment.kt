@@ -1,10 +1,12 @@
 package sg.toru.nfsearch.presentation.main.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -38,18 +40,32 @@ class MainSearchFragment : BaseFragment() {
         object : OnLoadMoreListener {
             override fun onLoadMore() {
                 Log.e("Toru", "Added!!!")
-                mainViewModel.request(currentQuery, ++mainViewModel.currentPage)
+                mainViewModel.request(currentQuery, ++mainViewModel.nextPage)
             }
         }
     }
 
+    private var currentQuery:String = ""
+
+    private val onBackPressedCallback:OnBackPressedCallback by lazy {
+        object:OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                mainViewModel.stop()
+                activity?.finish()
+            }
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+    
     override fun initDependencyInjection() {
         (requireActivity().application as NFApp).appComponent()
             .mainDomainComponent(MainDomainModule())
             .injectTo(this)
     }
-
-    private var currentQuery:String = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,7 +76,7 @@ class MainSearchFragment : BaseFragment() {
         (requireActivity() as MainActivity).imageQueryLiveData.observe(viewLifecycleOwner, Observer { query ->
             Log.e("Toru", "MainSearchFragment!! $query")
             currentQuery = query
-            mainViewModel.request(query, 1)
+            mainViewModel.request(query)
         })
         binding.viewModel = mainViewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -84,6 +100,8 @@ class MainSearchFragment : BaseFragment() {
             Log.e("Toru", "MainSearchFragment failed message $it")
         })
     }
+
+
 
     companion object {
         fun getInstance() =
