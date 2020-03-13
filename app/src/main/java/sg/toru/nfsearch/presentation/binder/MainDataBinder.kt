@@ -1,5 +1,7 @@
 package sg.toru.nfsearch.presentation.binder
 
+import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
@@ -7,12 +9,16 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import sg.toru.nfsearch.R
 import sg.toru.nfsearch.data.api.NetworkUtil.URL_FOR_SEARCH
 import sg.toru.nfsearch.data.entity.SearchResult
-import sg.toru.nfsearch.presentation.glide.GlideApp
 import sg.toru.nfsearch.presentation.adapter.MainSearchAdapter
+import sg.toru.nfsearch.presentation.glide.GlideApp
 
 @BindingAdapter("loadImage")
 fun ImageView.loadImage(url:String) {
@@ -31,12 +37,49 @@ fun ImageView.loadImageWithDimension(
     width:Int,
     height:Int
 ) {
+    val view = this
+
+//    val myHeight =if (width > height) {
+//        ((layoutParams.width.toFloat()) * (height.toFloat() / width.toFloat())).toInt()
+//
+//
+//    } else {
+//        ((layoutParams.width.toFloat()) * (width.toFloat() / height.toFloat())).toInt()
+//    }
+
+    val myHeight = ((layoutParams.width.toFloat()) * (height.toFloat() / width.toFloat())).toInt()
+
+    val params = view.layoutParams
+    params.height = myHeight
+    view.layoutParams = params
+    view.invalidate()
+
     GlideApp.with(this)
-        .load(url).override(width, height)
+        .load(url)
+        .override(layoutParams.width, myHeight)
         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-        .skipMemoryCache(false)
+        .skipMemoryCache(false).listener(object:RequestListener<Drawable>{
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: Target<Drawable>?,
+                isFirstResource: Boolean
+            ): Boolean {
+                view.layoutParams.height = myHeight
+                view.setImageResource(R.drawable.placeholder)
+                e?.printStackTrace()
+                return true
+            }
+
+            override fun onResourceReady(
+                resource: Drawable?,
+                model: Any?,
+                target: Target<Drawable>?,
+                dataSource: DataSource?,
+                isFirstResource: Boolean
+            ): Boolean = false
+        })
         .placeholder(R.drawable.placeholder)
-        .error(R.drawable.placeholder)
         .into(this)
 }
 
