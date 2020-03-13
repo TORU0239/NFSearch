@@ -56,16 +56,17 @@ class MainViewModel @Inject constructor(
                     setLoadingStatus(false)
                     Log.e("Toru", "request 1, queriedList size: ${queriedList.size}")
                     if (queriedList.isEmpty()) {
+                        nextPage = 1
                         request(queryName, nextPage)
                     } else {
-                        nextPage = getNextPageNum(queriedList)
-                        successResponse.value = queriedList
                         if (currentQuery != queryName) {
                             currentQuery = queryName
                             clearCurrentList.value = true
                         } else {
                             clearCurrentList.value = false
                         }
+                        nextPage = getNextPageNum(queriedList)
+                        successResponse.value = queriedList
                     }
                 }
             }
@@ -91,14 +92,14 @@ class MainViewModel @Inject constructor(
                         setLoadingStatus(false)
                         when (result) {
                             is ApiResponse.ApiSuccess -> {
-                                databaseUseCase.save(result.body.value)
-                                successResponse.value = result.body.value
                                 if (currentQuery != queryName) {
                                     currentQuery = queryName
                                     clearCurrentList.value = true
                                 } else {
                                     clearCurrentList.value = false
                                 }
+                                databaseUseCase.save(result.body.value)
+                                successResponse.value = result.body.value
                             }
                             is ApiResponse.ApiFailure -> {
                                 failedResponse.value = result.errorMessage
