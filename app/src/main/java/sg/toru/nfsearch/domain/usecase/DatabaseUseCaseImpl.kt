@@ -8,4 +8,12 @@ class DatabaseUseCaseImpl @Inject constructor(private val database:NFSearchDatab
     override fun query(query: String): List<SearchResult> {
         return database.searchDao().getSearch(query)
     }
+
+    override fun save(list: List<SearchResult>) {
+        database.searchDao().insertSearchResult(list)
+    }
+
+    override fun getTotalCount(): Int {
+        return database.searchDao().getTotalNumber()
+    }
 }

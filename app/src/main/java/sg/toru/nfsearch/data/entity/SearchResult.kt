@@ -5,17 +5,15 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class SearchResult (
-
-    @PrimaryKey(autoGenerate = true)
-    val uid:Int,
     val url:String,
     val height:Int,
     val width:Int,
     val thumbnail:String,
     val thumbnailHeight:String,
     val thumbnailWidth:String,
-    val base64Encoding:String,
+    val base64Encoding:String?,
     val name:String,
+    @PrimaryKey
     val title:String,
     val imageWebSearchUrl:String
 )

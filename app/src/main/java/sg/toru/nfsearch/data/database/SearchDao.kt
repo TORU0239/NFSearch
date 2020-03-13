@@ -9,11 +9,16 @@ import sg.toru.nfsearch.data.entity.SearchResult
 @Dao
 interface SearchDao {
 
-    @Query("SELECT * FROM SearchResult WHERE title IN (:query)")
+    //'%'||upper('입력받은 조건')||'%'
+
+    @Query("SELECT * FROM SearchResult WHERE UPPER(title) LIKE '%'||UPPER(:query)||'%'")
     fun getSearch(query:String):List<SearchResult>
 
-    @Query("SELECT COUNT(*) FROM SearchResult WHERE title IN (:query)")
+    @Query("SELECT COUNT(*) FROM SearchResult WHERE LOWER(title) LIKE LOWER(:query)")
     fun getTotalImageForQuery(query: String):Int
+
+    @Query("SELECT COUNT(*) FROM SearchResult")
+    fun getTotalNumber():Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSearchResult(resultList:List<SearchResult>)

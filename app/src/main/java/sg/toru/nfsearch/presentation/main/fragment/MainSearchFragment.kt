@@ -51,6 +51,7 @@ class MainSearchFragment : BaseFragment() {
         object:OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
                 mainViewModel.stop()
+                activity?.finish()
             }
         }
     }

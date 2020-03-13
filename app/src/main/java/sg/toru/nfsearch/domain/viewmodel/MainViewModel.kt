@@ -48,28 +48,47 @@ class MainViewModel @Inject constructor(
                 if(job?.isCancelled!! || job?.isCompleted!!) {
                     job?.cancel()
                 }  else {
-                    val result = useCase.request(queryName, pageNumber)
-                    withContext(Dispatchers.Main) {
-                        setLoadingStatus(false)
-                        when (result) {
-                            is ApiResponse.ApiSuccess -> {
-                                result.body.value
-                                successResponse.value = result.body.value
-                                if (currentQuery != queryName) {
-                                    currentQuery = queryName
-                                    clearCurrentList.value = true
-                                } else {
-                                    clearCurrentList.value = false
+                    val dbQuery = request(queryName)
+                    if(dbQuery.isEmpty()) {
+                        val result = useCase.request(queryName, pageNumber)
+                        withContext(Dispatchers.Main) {
+                            setLoadingStatus(false)
+                            when (result) {
+                                is ApiResponse.ApiSuccess -> {
+                                    databaseUseCase.save(result.body.value)
+                                    successResponse.value = result.body.value
+                                    if (currentQuery != queryName) {
+                                        currentQuery = queryName
+                                        clearCurrentList.value = true
+                                    } else {
+                                        clearCurrentList.value = false
+                                    }
+                                }
+                                is ApiResponse.ApiFailure -> {
+                                    failedResponse.value = result.errorMessage
                                 }
                             }
-                            is ApiResponse.ApiFailure -> {
-                                failedResponse.value = result.errorMessage
+                        }
+                    } else {
+                        withContext(Dispatchers.Main) {
+                            setLoadingStatus(false)
+                            successResponse.value = dbQuery
+                            if (currentQuery != queryName) {
+                                currentQuery = queryName
+                                clearCurrentList.value = true
+                            } else {
+                                clearCurrentList.value = false
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    // OVERLOADING FOR DATABASE
+    fun request(queryName:String):List<SearchResult> {
+        return databaseUseCase.query(queryName)
     }
 
     // Stopping job when user exits
