@@ -40,7 +40,7 @@ class MainSearchFragment : BaseFragment() {
         object : OnLoadMoreListener {
             override fun onLoadMore() {
                 Log.e("Toru", "Added!!!")
-                mainViewModel.request(currentQuery, ++mainViewModel.currentPage)
+                mainViewModel.request(currentQuery, ++mainViewModel.nextPage)
             }
         }
     }
@@ -76,7 +76,7 @@ class MainSearchFragment : BaseFragment() {
         (requireActivity() as MainActivity).imageQueryLiveData.observe(viewLifecycleOwner, Observer { query ->
             Log.e("Toru", "MainSearchFragment!! $query")
             currentQuery = query
-            mainViewModel.request(query, 1)
+            mainViewModel.request(query)
         })
         binding.viewModel = mainViewModel
         binding.lifecycleOwner = viewLifecycleOwner

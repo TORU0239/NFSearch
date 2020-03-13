@@ -8,13 +8,10 @@ import sg.toru.nfsearch.data.entity.SearchResult
 
 @Dao
 interface SearchDao {
-
-    //'%'||upper('입력받은 조건')||'%'
-
-    @Query("SELECT * FROM SearchResult WHERE UPPER(title) LIKE '%'||UPPER(:query)||'%'")
+    @Query("SELECT * FROM SearchResult WHERE UPPER(title) LIKE ('%' || :query || '%')")
     fun getSearch(query:String):List<SearchResult>
 
-    @Query("SELECT COUNT(*) FROM SearchResult WHERE LOWER(title) LIKE LOWER(:query)")
+    @Query("SELECT COUNT(*) FROM SearchResult WHERE UPPER(title) LIKE ('%'|| :query || '%')")
     fun getTotalImageForQuery(query: String):Int
 
     @Query("SELECT COUNT(*) FROM SearchResult")
