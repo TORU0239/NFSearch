@@ -1,7 +1,6 @@
 package sg.toru.nfsearch.presentation.binder
 
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.widget.ImageView
@@ -38,17 +37,7 @@ fun ImageView.loadImageWithDimension(
     height:Int
 ) {
     val view = this
-
-//    val myHeight =if (width > height) {
-//        ((layoutParams.width.toFloat()) * (height.toFloat() / width.toFloat())).toInt()
-//
-//
-//    } else {
-//        ((layoutParams.width.toFloat()) * (width.toFloat() / height.toFloat())).toInt()
-//    }
-
     val myHeight = ((layoutParams.width.toFloat()) * (height.toFloat() / width.toFloat())).toInt()
-
     val params = view.layoutParams
     params.height = myHeight
     view.layoutParams = params
@@ -65,8 +54,7 @@ fun ImageView.loadImageWithDimension(
                 target: Target<Drawable>?,
                 isFirstResource: Boolean
             ): Boolean {
-                view.layoutParams.height = myHeight
-                view.setImageResource(R.drawable.placeholder)
+                view.setImageResource(R.drawable.error_drawable)
                 e?.printStackTrace()
                 return true
             }

@@ -71,6 +71,7 @@
                 android:layout_width="300dp"
                 android:layout_height="300dp"
                 android:background="@drawable/placeholder"
+                android:scaleType="fitXY"
                 app:loadImageUrl="@{item.url}"
                 app:width="@{item.width}"
                 app:height="@{item.height}"/>

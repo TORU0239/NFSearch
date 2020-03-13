@@ -9,6 +9,7 @@ import androidx.fragment.app.DialogFragment
 import sg.toru.nfsearch.R
 import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.databinding.FragmentImagePopupBinding
+import sg.toru.nfsearch.presentation.Const.KEY_IMAGE_RESULT
 
 class MainPopupFragment : DialogFragment() {
 
@@ -34,22 +35,14 @@ class MainPopupFragment : DialogFragment() {
         binding.executePendingBindings()
     }
 
-//    private val imageUrl:String by lazy {
-//        arguments?.getString("image_url") ?: ""
-//    }
-//
-//    private val imageTitle:String by lazy {
-//        arguments?.getString("image_title") ?: ""
-//    }
-
     private val imageSearchResult:SearchResult? by lazy {
-        (arguments?.getParcelable<SearchResult>("image_result"))
+        (arguments?.getParcelable<SearchResult>(KEY_IMAGE_RESULT))
     }
 
     companion object {
         fun newInstance(result:SearchResult) = MainPopupFragment().apply {
             val bundle = Bundle().apply {
-                putParcelable("image_result", result)
+                putParcelable(KEY_IMAGE_RESULT, result)
             }
             arguments = bundle
         }
