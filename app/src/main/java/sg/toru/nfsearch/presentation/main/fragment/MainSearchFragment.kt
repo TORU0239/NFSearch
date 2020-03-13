@@ -57,7 +57,7 @@ class MainSearchFragment : BaseFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, onBackPressedCallback)
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
     
     override fun initDependencyInjection() {

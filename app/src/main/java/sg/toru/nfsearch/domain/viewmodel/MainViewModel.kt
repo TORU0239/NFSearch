@@ -8,12 +8,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import sg.toru.nfsearch.app.NFApp
+import sg.toru.nfsearch.data.database.NFSearchDatabase
 import sg.toru.nfsearch.data.entity.ApiResponse
 import sg.toru.nfsearch.data.entity.SearchResult
+import sg.toru.nfsearch.domain.usecase.DatabaseUseCase
 import sg.toru.nfsearch.domain.usecase.ImageSearchUseCase
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase):ViewModel() {
+class MainViewModel @Inject constructor(
+    private val useCase: ImageSearchUseCase,
+    private val databaseUseCase:DatabaseUseCase
+):ViewModel() {
     val successResponse = MutableLiveData<List<SearchResult>>()
     val failedResponse = MutableLiveData<String>()
     var loadingProgress = MutableLiveData(false)
@@ -47,6 +53,7 @@ class MainViewModel @Inject constructor(private val useCase: ImageSearchUseCase)
                         setLoadingStatus(false)
                         when (result) {
                             is ApiResponse.ApiSuccess -> {
+                                result.body.value
                                 successResponse.value = result.body.value
                                 if (currentQuery != queryName) {
                                     currentQuery = queryName

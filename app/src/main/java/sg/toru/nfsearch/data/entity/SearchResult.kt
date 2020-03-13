@@ -1,6 +1,13 @@
 package sg.toru.nfsearch.data.entity
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class SearchResult (
+
+    @PrimaryKey(autoGenerate = true)
+    val uid:Int,
     val url:String,
     val height:Int,
     val width:Int,
