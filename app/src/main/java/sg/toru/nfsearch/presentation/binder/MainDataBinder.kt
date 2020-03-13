@@ -25,6 +25,22 @@ fun ImageView.loadImage(url:String) {
         .into(this)
 }
 
+@BindingAdapter("loadImageUrl", "width", "height", requireAll = true)
+fun ImageView.loadImageWithDimension(
+    url:String,
+    width:Int,
+    height:Int
+) {
+    GlideApp.with(this)
+        .load(url).override(width, height)
+        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+        .skipMemoryCache(false)
+        .placeholder(R.drawable.placeholder)
+        .error(R.drawable.placeholder)
+        .into(this)
+}
+
+
 @BindingAdapter("addItems", "clearCurrentList", requireAll = true)
 fun RecyclerView.addItems(
     itemLists:List<SearchResult>?,

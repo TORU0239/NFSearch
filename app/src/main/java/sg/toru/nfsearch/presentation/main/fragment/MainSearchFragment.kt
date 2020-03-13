@@ -1,5 +1,6 @@
 package sg.toru.nfsearch.presentation.main.fragment
 
+import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,10 +27,10 @@ import javax.inject.Inject
 
 class MainSearchFragment : BaseFragment() {
 
-    private lateinit var binding: FragmentMainSearchBinding
-
     @Inject
     lateinit var mainViewModel: MainViewModel
+    private var currentQuery:String = ""
+    private lateinit var binding: FragmentMainSearchBinding
 
     private val scrollListener: InfiniteScrollListener by lazy {
         InfiniteScrollListener(
@@ -39,13 +41,10 @@ class MainSearchFragment : BaseFragment() {
     private val loadMoreListener: OnLoadMoreListener by lazy {
         object : OnLoadMoreListener {
             override fun onLoadMore() {
-                Log.e("Toru", "Added!!!")
                 mainViewModel.request(currentQuery, ++mainViewModel.nextPage)
             }
         }
     }
-
-    private var currentQuery:String = ""
 
     private val onBackPressedCallback:OnBackPressedCallback by lazy {
         object:OnBackPressedCallback(true){
@@ -87,7 +86,8 @@ class MainSearchFragment : BaseFragment() {
     }
 
     private fun showingPopup(result:SearchResult) {
-        Log.e("Toru", "adapter, ${result.title}")
+        Log.e("Toru", "adapter, ${result.url}")
+        MainPopupFragment.newInstance(result).show(childFragmentManager, "popup")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -100,8 +100,6 @@ class MainSearchFragment : BaseFragment() {
             Log.e("Toru", "MainSearchFragment failed message $it")
         })
     }
-
-
 
     companion object {
         fun getInstance() =
