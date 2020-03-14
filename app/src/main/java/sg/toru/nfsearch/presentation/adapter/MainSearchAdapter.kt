@@ -2,15 +2,14 @@ package sg.toru.nfsearch.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.databinding.ItemMainSearchBinding
-import java.util.*
-import kotlin.collections.ArrayList
 
+@Deprecated("Recommend using the other class which extends ListAdapter")
 class MainSearchAdapter(private val onClick:(SearchResult)->Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    var recyclerviewListItem: ArrayList<SearchResult> = ArrayList()
+    private var recyclerviewListItem: ArrayList<SearchResult> = ArrayList()
+
     fun clearList() {
         if(recyclerviewListItem.isNotEmpty()) {
             recyclerviewListItem.clear()
@@ -40,17 +39,4 @@ class MainSearchAdapter(private val onClick:(SearchResult)->Unit): RecyclerView.
     }
 
     override fun getItemCount(): Int = recyclerviewListItem.size
-}
-
-class SearchViewHolder(
-    private val binding: ItemMainSearchBinding,
-    private val click:(SearchResult)->Unit
-): RecyclerView.ViewHolder(binding.root) {
-    fun bindItem(result:SearchResult) {
-        binding.item = result
-        binding.executePendingBindings()
-        binding.root.setOnClickListener {
-            click.invoke(result)
-        }
-    }
 }

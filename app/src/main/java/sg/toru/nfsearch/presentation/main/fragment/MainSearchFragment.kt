@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -17,7 +16,8 @@ import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.databinding.FragmentMainSearchBinding
 import sg.toru.nfsearch.domain.di.MainDomainModule
 import sg.toru.nfsearch.domain.viewmodel.MainViewModel
-import sg.toru.nfsearch.presentation.adapter.MainSearchAdapter
+import sg.toru.nfsearch.presentation.adapter.MainItemCallback
+import sg.toru.nfsearch.presentation.adapter.MainSearchListAdapter
 import sg.toru.nfsearch.presentation.main.InfiniteScrollListener
 import sg.toru.nfsearch.presentation.main.OnLoadMoreListener
 import sg.toru.nfsearch.presentation.main.activity.MainActivity
@@ -78,11 +78,8 @@ class MainSearchFragment : BaseFragment() {
         })
         binding.viewModel = mainViewModel
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.rcvMainSearch.adapter = MainSearchAdapter(::showingPopup)
+        binding.rcvMainSearch.adapter = MainSearchListAdapter(MainItemCallback(), ::showingPopup)
         binding.rcvMainSearch.addOnScrollListener(scrollListener)
-
-        Toast.makeText(context, R.string.initial_status, Toast.LENGTH_SHORT).show()
-
         return binding.root
     }
 
