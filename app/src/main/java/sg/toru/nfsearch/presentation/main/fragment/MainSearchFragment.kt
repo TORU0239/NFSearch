@@ -81,7 +81,7 @@ class MainSearchFragment : BaseFragment() {
         binding.rcvMainSearch.adapter = MainSearchAdapter(::showingPopup)
         binding.rcvMainSearch.addOnScrollListener(scrollListener)
 
-        Toast.makeText(context, R.string.initial_status, Toast.LENGTH_LONG).show()
+        Toast.makeText(context, R.string.initial_status, Toast.LENGTH_SHORT).show()
 
         return binding.root
     }

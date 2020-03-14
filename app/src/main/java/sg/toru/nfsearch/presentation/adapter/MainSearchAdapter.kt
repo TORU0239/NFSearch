@@ -2,10 +2,12 @@ package sg.toru.nfsearch.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.databinding.ItemMainSearchBinding
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainSearchAdapter(private val onClick:(SearchResult)->Unit): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var recyclerviewListItem: ArrayList<SearchResult> = ArrayList()
