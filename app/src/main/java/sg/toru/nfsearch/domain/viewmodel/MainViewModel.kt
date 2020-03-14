@@ -111,6 +111,15 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private fun query(queryName: String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                val queriedList = databaseUseCase.query(queryName)
+                successResponse.value = queriedList
+            }
+        }
+    }
+
     // Stopping job when user exits
     fun stop() {
         job?.let {
