@@ -38,10 +38,10 @@ class MainViewModel @Inject constructor(
             1
         } else {
             val currentSize = queriedList.size
-            return if (currentSize <= 10) {
+            return if (currentSize <= 20) {
                 2
             } else {
-                (currentSize / 10)
+                (currentSize / 20)
             }
         }
     }
@@ -55,7 +55,7 @@ class MainViewModel @Inject constructor(
                 withContext(Dispatchers.Main) {
                     setLoadingStatus(false)
                     Log.e("Toru", "request 1, queriedList size: ${queriedList.size}")
-                    if (queriedList.isEmpty()) {
+                    if (queriedList.size <= 20) {
                         nextPage = 1
                         request(queryName, nextPage)
                     } else {
@@ -107,6 +107,15 @@ class MainViewModel @Inject constructor(
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun query(queryName: String) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                val queriedList = databaseUseCase.query(queryName)
+                successResponse.value = queriedList
             }
         }
     }

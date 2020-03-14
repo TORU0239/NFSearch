@@ -1,9 +1,12 @@
 package sg.toru.nfsearch.data.entity
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
 @Entity
+@Parcelize
 data class SearchResult (
     val url:String,
     val height:Int,
@@ -16,7 +19,7 @@ data class SearchResult (
     @PrimaryKey
     val title:String,
     val imageWebSearchUrl:String
-)
+):Parcelable
 
 /*
 *
