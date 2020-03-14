@@ -41,7 +41,7 @@ class MainViewModel @Inject constructor(
             return if (currentSize <= 20) {
                 2
             } else {
-                (currentSize / 20)
+                (currentSize / 20) + 1
             }
         }
     }
@@ -56,20 +56,28 @@ class MainViewModel @Inject constructor(
                     setLoadingStatus(false)
                     Log.e("Toru", "request 1, queriedList size: ${queriedList.size}")
                     if (queriedList.size <= 20) {
-                        nextPage = 1
+                        setNextPageAndSendImage(queriedList)
                         request(queryName, nextPage)
                     } else {
-                        if (currentQuery != queryName) {
-                            currentQuery = queryName
-                            clearCurrentList.value = true
-                        } else {
-                            clearCurrentList.value = false
-                        }
-                        nextPage = getNextPageNum(queriedList)
-                        successResponse.value = queriedList
+                        notifyAdapterToClearList(queryName)
+                        setNextPageAndSendImage(queriedList)
                     }
                 }
             }
+        }
+    }
+
+    private fun setNextPageAndSendImage(queriedList: List<SearchResult>){
+        nextPage = getNextPageNum(queriedList)
+        successResponse.value = queriedList
+    }
+
+    private fun notifyAdapterToClearList(queryName: String) {
+        if (currentQuery != queryName) {
+            currentQuery = queryName
+            clearCurrentList.value = true
+        } else {
+            clearCurrentList.value = false
         }
     }
 
@@ -92,14 +100,10 @@ class MainViewModel @Inject constructor(
                         setLoadingStatus(false)
                         when (result) {
                             is ApiResponse.ApiSuccess -> {
-                                if (currentQuery != queryName) {
-                                    currentQuery = queryName
-                                    clearCurrentList.value = true
-                                } else {
-                                    clearCurrentList.value = false
-                                }
+                                notifyAdapterToClearList(queryName)
                                 databaseUseCase.save(result.body.value)
-                                successResponse.value = result.body.value
+//                                successResponse.value = result.body.value
+                                query(queryName)
                             }
                             is ApiResponse.ApiFailure -> {
                                 failedResponse.value = result.errorMessage
@@ -115,7 +119,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 val queriedList = databaseUseCase.query(queryName)
-                successResponse.value = queriedList
+                withContext(Dispatchers.Main){
+                    successResponse.value = queriedList
+                }
             }
         }
     }
@@ -131,7 +137,6 @@ class MainViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        Log.e("Toru", "MainViewModel onCleared")
         stop()
     }
 }

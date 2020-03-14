@@ -17,6 +17,7 @@ import sg.toru.nfsearch.R
 import sg.toru.nfsearch.data.api.NetworkUtil.URL_FOR_SEARCH
 import sg.toru.nfsearch.data.entity.SearchResult
 import sg.toru.nfsearch.presentation.adapter.MainSearchAdapter
+import sg.toru.nfsearch.presentation.adapter.MainSearchListAdapter
 import sg.toru.nfsearch.presentation.glide.GlideApp
 
 @BindingAdapter("loadImage")
@@ -80,13 +81,15 @@ fun RecyclerView.addItems(
     itemLists?.let{
         isClearCurrentList?.let { clear ->
             if(clear) {
-                ((this.adapter) as MainSearchAdapter).clearList()
+//                ((this.adapter) as MainSearchAdapter).clearList()
+                ((this.adapter) as MainSearchListAdapter).clearList()
             }
         }
         if(it.isEmpty()) {
-            Toast.makeText(context, R.string.no_item, Toast.LENGTH_LONG).show()
+//            Toast.makeText(context, R.string.no_item, Toast.LENGTH_LONG).show()
         } else {
-            ((this.adapter) as MainSearchAdapter).updateList(itemLists as ArrayList<SearchResult>)
+//            ((this.adapter) as MainSearchAdapter).updateList(itemLists as ArrayList<SearchResult>)
+            ((this.adapter) as MainSearchListAdapter).submitList(itemLists as ArrayList<SearchResult>)
         }
     }
 }
